@@ -2,14 +2,14 @@
 if test "$OS" = "Windows_NT"
 then
   # use .Net
-  .paket/paket.exe restore
+  .paket/paket.exe install
   exit_code=$?
   if [ $exit_code -ne 0 ]; then
   	exit $exit_code
   fi
   packages/build/FAKE/tools/FAKE.exe $@ --fsiargs -d:MONO build.fsx 
 else
-  mono .paket/paket.exe restore
+  mono .paket/paket.exe install
   exit_code=$?
   if [ $exit_code -ne 0 ]; then  
     certificate_count=$(certmgr -list -c Trust | grep X.509 | wc -l)
