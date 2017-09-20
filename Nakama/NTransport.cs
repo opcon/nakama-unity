@@ -195,7 +195,9 @@ namespace Nakama
             if (noDelay)
             {
                 Logger.TraceIf(Trace, "Connect: Enabling NoDelay on socket.");
-                socket.TcpClient.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+				// ugly reflection hack to get private tcpclient, without rebuilding websocket-sharp
+				(socket.GetType().GetField("_tcpClient", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(socket) as TcpClient)
+					.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
                 Logger.TraceIf(Trace, "Connect: Enabled NoDelay on socket.");
             }
         }
@@ -211,7 +213,9 @@ namespace Nakama
                     if (noDelay)
                     {
                         Logger.TraceIf(Trace, "ConnectAsync: Enabling NoDelay on socket.");
-                        socket.TcpClient.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+        				// ugly reflection hack to get private tcpclient, without rebuilding websocket-sharp
+						(socket.GetType().GetField("_tcpClient", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(socket) as TcpClient)
+							.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
                         Logger.TraceIf(Trace, "ConnectAsync: Enabled NoDelay on socket.");
                     }
                     callback(true);
