@@ -1,0 +1,17 @@
+version: 0.0.{build}
+image: Visual Studio 2017
+configuration:
+- Debug
+- Release
+build:
+  parallel: true
+  verbosity: minimal
+install:
+  - cinst protoc
+build_script:
+  - cmd: .\build.cmd UpdateAppveyorVersion
+  - cmd: .\build.cmd mode=%CONFIGURATION%
+after_build:
+  - cmd: .\build.cmd Pack
+artifacts:
+  - path: '**\*Nakama*.nupkg'

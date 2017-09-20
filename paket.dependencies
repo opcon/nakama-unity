@@ -1,0 +1,11 @@
+framework: net451
+
+source https://nuget.org/api/v2
+
+nuget WebSocketSharp prerelease
+nuget Google.Protobuf
+
+group Build
+source https://nuget.org/api/v2
+
+nuget FAKE
